@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'vulspy',
 ]
 
@@ -57,7 +58,6 @@ ROOT_URLCONF = 'hamravesh.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        ## Added templates directory
         'DIRS': [''],
         'APP_DIRS': True,
         'OPTIONS': {

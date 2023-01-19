@@ -1,16 +1,34 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from vulspy import utils
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+from django.contrib.auth.models import User
+from vulspy.models import ScanRequest
+from uuid import uuid4
 
 
-def index(request):
-        template = loader.get_template('vulspy/index.html')
-        return HttpResponse(template.render({},request))
+class Scan(APIView):
+	authentication_classes = [authentication.TokenAuthentication]
+	permission_classes = [permissions.IsAuthenticated]
 
-def scan(request , urlInput) :
-        response = ("What url you want to check? %s" %urlInput)
-        return  HttpResponse(response %urlInput)
+	def post(self, request, format=None):
+		domain = request.data.get('domain')
+		#  subdomains  =  utils.get_sub_domains(domain)
+		scan_request = ScanRequest.objects.create(url=domain, user=request.user)
+		return Response({'scan_id':scan_request.scan_id })
 
-def result(request):
-        return  HttpResponse("RESSSSSS ALT")
-# Create your views here.
+	def get(self, request):
+		scan_requests = ScanRequest.objects.filter(user=request.user)
+		scan_requests_data = [{
+			'domain': i.url,
+			'date':i.date,
+			'scan_id':i.scan_id,
+			'status': 'ok'
+		} for i in scan_requests]
+		
+		return Response(scan_requests_data)
+		
+
