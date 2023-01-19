@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6w@wfg48x&k$uvb7i-a7xtln&26z_w2o2@q0mg-$wuvxd%jgz^
 # SECURITY WARNING: don't run with debug turned on in production!
 
 #### debug mode turned off for docker
-DEBUG = False
+DEBUG = True
 # DEBUG is False so ALLOWED_HOSTS are set ro localhost 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]'] 
 
@@ -57,7 +57,8 @@ ROOT_URLCONF = 'hamravesh.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        ## Added templates directory
+        'DIRS': [''],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

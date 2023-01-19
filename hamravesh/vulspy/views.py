@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import loader
 
 
 def index(request):
-        return HttpResponse("I'm Dying right here")
+        template = loader.get_template('vulspy/index.html')
+        return HttpResponse(template.render({},request))
 
 def scan(request , urlInput) :
         response = ("What url you want to check? %s" %urlInput)
