@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6w@wfg48x&k$uvb7i-a7xtln&26z_w2o2@q0mg-$wuvxd%jgz^
 # SECURITY WARNING: don't run with debug turned on in production!
 
 #### debug mode turned off for docker
-DEBUG = False
+DEBUG = True
 # DEBUG is False so ALLOWED_HOSTS are set ro localhost 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]'] 
 
@@ -125,3 +125,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CELERY_ENABLED = True
+CELERY_RESULT_PERSISTENT = False
+CELERY_IGNORE_RESULT = True
+CELERY_TASK_IGNORE_RESULT = True
+CELERY_TASK_RESULT_EXPIRES = 60
+
+CELERY_BROKER_URL = 'amqp://'
+

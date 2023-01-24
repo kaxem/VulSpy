@@ -1,0 +1,20 @@
+services:
+  web:
+    build: ./hamravesh
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: 'rabbitmq'
+    environment:
+      - RABBITMQ_DEFAULT_USER=kaxem
+      - RABBITMQ_DEFAULT_PASS=12345678
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    command: 
+
+   
+    

@@ -9,8 +9,11 @@ class ScanRequest(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
-class ResultID(models.Model):
-    user = models.CharField(max_length=127)
+class Subdomain(models.Model):
+    main_subdomain_name = models.CharField(max_length=128)
+    scan_request = models.ForeignKey(to=ScanRequest , on_delete=models.CASCADE) 
+
+class Vulnerabilities(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    uuid_path = models.UUIDField(primary_key=True)
-    subdomains = models.JSONField()
+    main_vul = models.CharField(max_length=127)
+    sub_domain = models.ForeignKey(to= Subdomain , on_delete=models.CASCADE)
