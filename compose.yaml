@@ -1,9 +1,23 @@
+version: "3"
+
 services:
   web:
     build: ./hamravesh
-    command: python manage.py runserver 0.0.0.0:8000
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+        celery -A hamravesh worker -l info
     ports:
       - 8000:8000
+      
+    depends_on:
+        rabbitmq:
+          condition: service_healthy
+    restart: on-failure
+
 
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
@@ -14,7 +28,11 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
-    command: 
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
    
     
