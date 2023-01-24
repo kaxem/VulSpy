@@ -3,7 +3,7 @@ from vulspy import tasks
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
-from django.contrib import messages
+from celery.result import AsyncResult
 from django.contrib.auth.models import User
 from vulspy.models import ScanRequest, Vulnerabilities, Subdomain
 
@@ -16,7 +16,6 @@ class Scan(APIView):
 		domain = request.data.get('domain')
 		scan_request = ScanRequest.objects.create(url=domain, user=request.user)
 		tasks.get_sub_domains.delay(scan_request.scan_id)
-		messages.success(self.request, 'Your task is in process, plz wait!')
 		return Response({'scan_id':scan_request.scan_id })
 	
 
@@ -26,7 +25,7 @@ class Scan(APIView):
 			'domain': i.url,
 			'date':i.date,
 			'scan_id':i.scan_id,
-			'status': 'ok'
+			'status':'Pending', #Im working on status right now
 		} for i in scan_requests]
 		return Response(scan_requests_data)
 
