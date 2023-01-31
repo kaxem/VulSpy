@@ -11,9 +11,13 @@ class ScanRequest(models.Model):
 
 class Subdomain(models.Model):
     main_subdomain_name = models.CharField(max_length=128)
-    scan_request = models.ForeignKey(to=ScanRequest , on_delete=models.CASCADE) 
+    scan_request = models.ForeignKey(to=ScanRequest , on_delete=models.CASCADE)
+
+class Ports(models.Model):
+    port_scanned = models.CharField(max_length=256)
+    scan_request = models.ForeignKey(to=Subdomain, on_delete=models.CASCADE)
 
 class Vulnerabilities(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
+    # date = models.DateTimeField(auto_now_add=True)
     main_vul = models.CharField(max_length=127)
-    sub_domain = models.ForeignKey(to= Subdomain , on_delete=models.CASCADE)
+    sub_domain = models.ForeignKey(to=Subdomain, on_delete=models.CASCADE)

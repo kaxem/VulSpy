@@ -2,3 +2,4 @@ django
 django-rest-framework
 celery
 pyamqp
+python3-nmap

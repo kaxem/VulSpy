@@ -1,11 +1,9 @@
-from django.shortcuts import render
 from vulspy import tasks
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
-from celery.result import AsyncResult
-from django.contrib.auth.models import User
-from vulspy.models import ScanRequest, Vulnerabilities, Subdomain
+from django.core import serializers
+from vulspy.models import ScanRequest,Subdomain,Vulnerabilities,Ports
 
 
 class Scan(APIView):
@@ -33,11 +31,10 @@ class Result(APIView):
 	authentication_classes = [authentication.TokenAuthentication]
 	permission_classes = [permissions.IsAuthenticated]
 	def get(self, request, request_id):
-		result_request = Vulnerabilities.objects.get(sub_domain=request_id)
-		result_request_data = [{
-			x.date,
-			x.main_vul
-		}for x in result_request]
-		return Response(result_request_data)
+		result_request = ScanRequest.objects.get(scan_id=request_id)
+		result_domain = Subdomain.objects.get(scan_request=result_request.scan_id)
+		data_ports = Ports.objects.get(scan_request=result_domain)
+		data_vuls = Vulnerabilities.objects.get(sub_somain=result_domain)
+		return Response(data_ports,data_vuls)
 
 
