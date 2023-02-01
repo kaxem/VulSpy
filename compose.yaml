@@ -2,14 +2,14 @@ version: "3"
 
 services:
   web:
-    build: ./hamravesh
+    build: ./main
     command: 
       - /bin/bash
       - -c
       - |
         python manage.py migrate
         python manage.py runserver 0.0.0.0:8000
-        celery -A hamravesh worker -l info
+        celery -A main worker -l info
     ports:
       - 8000:8000
       

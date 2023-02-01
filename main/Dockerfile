@@ -10,7 +10,7 @@ RUN apt-get install -y python3-pip python3-dev \
 
 RUN mkdir -p /usr/src
 
-WORKDIR /usr/src/hamravesh
+WORKDIR /usr/src/main
 COPY . .
 RUN pip install -r requirements.txt
 EXPOSE 8000
